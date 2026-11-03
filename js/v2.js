@@ -294,7 +294,8 @@
   function renderResult() {
     res.classList.remove('ph');
     var h = '<p class="r-price num">' + esc(R.price) + '<small>부가세 별도</small></p><p class="r-incl num">' + inclLine() + '</p>';
-    h += '<button type="button" class="btn btn-kakao btn-block" data-copy data-hit="kakao_copy">' + CHAT + '이 결과로 카톡 상담하기</button>';
+    h += '<a class="btn btn-kakao btn-block" href="' + KAKAO + '" target="_blank" rel="noopener" data-copy data-hit="kakao_copy">' + CHAT + '이 결과로 카톡 상담하기</a>';
+    h += '<p data-copy-hint style="margin:6px 0 4px;font-size:14px;line-height:1.5;color:var(--ink2,#6b7280);text-align:center">누르면 계산 결과가 복사돼요. 카톡 창에 <b>붙여넣기</b>만 하세요.</p>';
     h += '<a class="btn btn-rsv btn-block" href="#reserve" data-hit="res_reserve">전화 상담 예약</a>';
     h += '<a class="r-tel" href="tel:' + TEL + '" data-hit="tel">바로 전화 ' + TEL + '</a>';
     var list = R.kind === 'corp' ? ['법인 장부 기장', '부가가치세·법인세 신고', '인건비 신고'] :
@@ -317,12 +318,17 @@
     return '[택스민 기장료 계산 결과]\n업종: ' + R.ind + (R.kind === 'corp' ? '' : '\n작년 매출: ' + R.rev + '\n4대보험 직원: ' + R.emp) +
       '\n→ ' + plain(R.plan) + ' ' + R.price + ' (부가세 별도)\n이 내용으로 상담 받고 싶어요.';
   }
-  function copy(text) {
-    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
-    return new Promise(function (ok, no) {
-      var t = doc.createElement('textarea'); t.value = text; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
-      doc.body.appendChild(t); t.select(); try { doc.execCommand('copy') ? ok() : no(); } catch (e) { no(e); } doc.body.removeChild(t);
-    });
+  /* 누르는 순간 바로 복사(동기). 카톡은 링크 자체가 열어서, 앱 안 브라우저가 지연된 새 창을 막는 문제를 피한다 */
+  function copyNow(text) {
+    var ok = false;
+    try {
+      var t = doc.createElement('textarea'); t.value = text; t.setAttribute('readonly', '');
+      t.style.position = 'fixed'; t.style.top = '0'; t.style.opacity = '0';
+      doc.body.appendChild(t); t.select(); t.setSelectionRange(0, text.length);
+      ok = doc.execCommand('copy'); doc.body.removeChild(t);
+    } catch (e) {}
+    try { if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
+    return ok;
   }
   function reset(from) {
     var order = ['ind', 'rev', 'emp'], i = order.indexOf(from);
@@ -347,9 +353,11 @@
       return;
     }
     if (e.target.closest('[data-again]')) { reset('ind'); A.ind = null; qs.ind.classList.remove('done'); $$('.chip', qs.ind).forEach(function (x) { x.classList.remove('on'); }); qs.ind.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' }); return; }
-    if (e.target.closest('[data-copy]')) {
-      var go = function () { window.open(KAKAO, '_blank', 'noopener'); };
-      copy(resultText()).then(function () { toast('계산 결과를 복사했어요. 카톡 창에 붙여넣기만 하세요.'); setTimeout(go, 700); }, go);
+    if (e.target.closest('[data-copy]') && R) {
+      copyNow(resultText());
+      toast('계산 결과를 복사했어요. 카톡 창에 붙여넣기만 하세요.');
+      var tip = res.querySelector('[data-copy-hint]');
+      if (tip) tip.innerHTML = '<b>계산 결과를 복사했어요.</b> 카톡 창에 붙여넣고 보내 주세요.';
     }
   }
   box.addEventListener('click', onClick);
