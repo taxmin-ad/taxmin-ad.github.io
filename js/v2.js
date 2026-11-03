@@ -39,9 +39,28 @@
   var adKey = clean(q.get('v') || q.get('utm_content'), 30).toUpperCase(), campaign = clean(q.get('utm_campaign'), 40);
 
   var sent = {};
+  // GA4 이벤트 이름 — 공방 랜딩(workshop.js)과 같은 이름을 써서 한 보고서에서 비교한다 (view는 GA4가 page_view로 자동 기록)
+  function gaName(e) {
+    if (e === 'calc_start') return 'calc_start';
+    if (e === 'calc_done') return 'calc_complete';
+    if (/^kakao/.test(e)) return 'kakao_click';
+    if (e === 'tel') return 'tel_click';
+    if (e === 'reserve_open') return 'form_open';
+    if (e === 'reserve_done') return 'form_submit';
+    return '';
+  }
+  function ga(e) {
+    var n = gaName(e);
+    if (!n || typeof window.gtag !== 'function') return;
+    var p = { traffic_src: srcKey, ad: adKey || '-', campaign: campaign || '-', page_variant: VARIANT, button: e };
+    if (e === 'calc_done' && typeof R !== 'undefined' && R) { p.plan = R.kind || '-'; p.price = String(R.price || '-'); }
+    try { window.gtag('event', n, p); } catch (x) {}
+  }
   function hit(e, once) {
-    if (!ENDPOINT || q.has('shot') || (once && sent[e])) return;
+    if (q.has('shot') || (once && sent[e])) return;
     sent[e] = 1;
+    ga(e);
+    if (!ENDPOINT) return;
     var body = JSON.stringify({ type: 'hit', e: e, s: srcKey, v: adKey, page: VARIANT });
     try {
       if (navigator.sendBeacon) navigator.sendBeacon(ENDPOINT, new Blob([body], { type: 'text/plain;charset=utf-8' }));
