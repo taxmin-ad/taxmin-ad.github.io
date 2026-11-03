@@ -1,0 +1,52 @@
+/* 택스민 토끼 — 조각(귀 2·몸·느낌표·그림자) + SVG 눈으로 움직이는 캐릭터. 크기는 .bun 너비 하나로 정함(그림 비율 820:929)
+   원본: 사용자가 준 '택스민_토끼랜딩_사이트_20261103.zip'(css/bun.css) — 지금 시안 B 구조(안내 말풍선·가격 꼬리표·팝업 결과)에 맞게 자리만 바꿈 */
+.bun { position: relative; aspect-ratio: 820 / 929; -webkit-tap-highlight-color: transparent; user-select: none; }
+.bun > i, .bun .rig, .bun .rig > i, .bun .rig > svg { position: absolute; inset: 0; display: block; }
+.bun i { background: center / 100% 100% no-repeat; pointer-events: none; }
+.bun .sh { background-image: url(../img/bun/shadow.webp); transform-origin: 53% 94%; }
+.bun .rig { transform-origin: 52% 93%; will-change: transform; }
+.bun .el { background-image: url(../img/bun/ear_l.webp); transform-origin: 57% 27%; }
+.bun .er { background-image: url(../img/bun/ear_r.webp); transform-origin: 77% 33%; }
+.bun .bd { background-image: url(../img/bun/body.webp); }
+.bun .bg { background-image: url(../img/bun/bang.webp); transform-origin: 30% 24%; }
+.bun svg { width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.bun .eye { fill: #2E2122; }
+.bun .eye-line { fill: none; stroke: #2E2122; stroke-width: 11; stroke-linecap: round; stroke-linejoin: round; }
+.bun .lid { transform-box: fill-box; transform-origin: 50% 50%; transition: transform .07s; }
+.bun.blink .lid { transform: scaleY(.08); }
+.bun .look { transition: transform .35s cubic-bezier(.3, .7, .3, 1); }
+/* 눈 모양: open(둘 다 뜸) · wink(오른눈 윙크, 원본 그림) · happy(^ ^) */
+.bun .o-l, .bun .o-r, .bun .w-r, .bun .h-l, .bun .h-r { display: none; }
+.bun[data-eye="open"] .o-l, .bun[data-eye="open"] .o-r,
+.bun[data-eye="wink"] .o-l, .bun[data-eye="wink"] .w-r,
+.bun[data-eye="happy"] .h-l, .bun[data-eye="happy"] .h-r { display: inline; }
+
+/* 쉬는 동안: 숨쉬기 + 귀 살랑 (조각마다 박자를 어긋나게) */
+.bun.idle .rig .bd, .bun.idle .rig svg { animation: bun-breath 3.2s ease-in-out infinite; transform-origin: 52% 93%; }
+.bun.idle .el { animation: bun-ear-l 3.2s ease-in-out infinite; }
+.bun.idle .er { animation: bun-ear-r 3.2s .25s ease-in-out infinite; }
+@keyframes bun-breath { 0%, 100% { transform: none; } 50% { transform: scale(1.012, .99); } }
+@keyframes bun-ear-l { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-3deg); } }
+@keyframes bun-ear-r { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(4deg); } }
+
+/* 처음엔 숨김(등장 동작이 보이게) — 스크립트 없으면 그대로 보임 */
+.js .bun[data-in]:not(.on) .rig, .js .bun[data-in]:not(.on) .sh { opacity: 0; }
+
+/* 자리 */
+.stage-b .bun-hero { width: 270px; cursor: pointer; }
+.guide .g-bun { flex: none; width: 112px; }
+.hang .bun-sit { position: absolute; right: 10px; bottom: calc(100% - 22px); width: 92px; z-index: 2; }
+.res { position: relative; }
+.bun-res { position: absolute; right: 14px; top: -34px; width: 78px; z-index: 2; }
+.b-close .sticker { padding: 12px 16px 8px; }
+.b-close .sticker .bun { width: 100%; }
+.b-close .sticker.on { animation: sticker .7s cubic-bezier(.2, 1.4, .4, 1) both; }
+@keyframes sticker { from { transform: rotate(-16deg) scale(1.35); opacity: 0; } 60% { opacity: 1; } to { transform: rotate(-4deg) scale(1); } }
+
+@media (min-width: 960px) {
+  .stage-b .bun-hero { width: 420px; }
+  .hang .bun-sit { width: 110px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bun.idle .rig .bd, .bun.idle .rig svg, .bun.idle .el, .bun.idle .er, .b-close .sticker.on { animation: none; }
+}

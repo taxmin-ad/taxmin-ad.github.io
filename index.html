@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko" data-variant="B" data-endpoint="https://script.google.com/macros/s/AKfycbxk6_zDmGd_aj9bfhUwitYn-3rVxdYVI9JQ9tuUpjGZn5TlRgt86-tV7uZ88HVkZmpt4A/exec">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-E68cf+6NDOazSUFvr+EFpaJgKq3gXXeoXu/j0XYB2m0='; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; font-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; media-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>세무사도 당근하세요! 채팅 한 번이면 세무사와 대화 시작 — 택스민</title>
+<meta name="description" content="장부 정리? 당근이죠. 직원 월급 신고? 당근이죠. 직원이 있어도 한 달 5만원(부가세 별도). 채팅 한 번이면 세무사와 대화를 시작할 수 있어요.">
+<meta name="theme-color" content="#ffffff">
+<link rel="canonical" href="https://taxmin-ad.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="택스민">
+<meta property="og:url" content="https://taxmin-ad.github.io/">
+<meta property="og:title" content="세무사도 당근하세요! — 택스민">
+<meta property="og:description" content="직원이 있어도 한 달 5만원. 채팅 한 번이면 세무사와 대화를 시작할 수 있어요.">
+<meta property="og:image" content="https://taxmin-ad.github.io/img/og-b.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/mark.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="css/v2.css?v=12">
+<link rel="stylesheet" href="css/bun.css?v=1">
+<style>
+  /* 시안 B: 당근 테마 + 당근 든 토끼 마스코트(사용자 제공 그림, 흰 바탕 그대로 흰 첫 화면에 얹음)
+     당근색: 큰 띠·큰 글씨 #EE6A12(흰 큰 글자 3.1:1), 작은 글씨·버튼 #C2410C(흰 글자 5.2:1). 공통 부품의 파랑 자리를 당근색으로 바꿈. */
+  :root { --blue: #C2410C; --blue-h: #9A3412; --blue-t: #FFF1E6; --blue-on-ink: #FFAA70; --carrot: #EE6A12; --carrot-deep: #C2410C; }
+  .carrot { color: var(--carrot); }
+  .b-hero { padding: 26px 0 8px; overflow: hidden; }
+  .b-hero .hero-grid { gap: 8px; }
+  .b-h1 { margin: 0; font-size: clamp(46px, 13.6vw, 84px); line-height: 1.12; font-weight: 900; letter-spacing: -0.04em; }
+  .b-h1 .carrot { display: inline-block; position: relative; }
+  .b-h1 .carrot::after { content: ""; position: absolute; left: 2%; right: 2%; bottom: .04em; height: .12em; border-radius: 99px; background: var(--carrot); opacity: .22; }
+  .b-hero .lead { margin-top: 12px; font-size: 18px; color: var(--ink2); }
+  .b-hero .lead b { color: var(--ink); }
+  .stage-b { position: relative; display: grid; place-items: center; height: 350px; margin-top: 4px; }
+  .say { position: absolute; left: 4%; top: 18px; padding: 12px 18px; border-radius: 22px 22px 6px 22px; background: var(--carrot); color: #fff; font-size: 22px; font-weight: 900; letter-spacing: -0.03em; box-shadow: 0 12px 24px -12px rgba(194, 65, 12, .55); transform-origin: 100% 100%; }
+  .js .say { animation: say .6s 1s cubic-bezier(.3, 1.6, .5, 1) both; }
+  @keyframes say { from { opacity: 0; transform: scale(.4) rotate(-8deg); } to { opacity: 1; transform: none; } }
+  .tag5 { position: absolute; right: 0; bottom: 8px; display: grid; padding: 14px 18px 15px; border-radius: 18px; background: var(--ink); color: #fff; line-height: 1.2; box-shadow: 0 16px 30px -16px rgba(25, 31, 40, .6); transform: rotate(3deg); }
+  .tag5 small { font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, .82); }
+  .tag5 b { font-size: 38px; font-weight: 900; letter-spacing: -0.04em; }
+  .tag5 b span { color: #FFAA70; }
+  .tag5 b i { font-style: normal; font-size: .5em; font-weight: 700; margin-left: 3px; color: rgba(255, 255, 255, .85); }
+  .b-hero .hero-fine { margin-top: 0; text-align: center; }
+
+  /* 대화 띠(당근색) */
+  .b-band { padding: 72px 0; background: var(--carrot); color: #fff; }
+  .b-band .h2 { color: #fff; }
+  .b-band .lead { color: var(--ink); }
+  .b-band-grid { display: grid; gap: 24px; justify-items: center; }
+  .b-band .device { height: 420px; }
+  .chat.bottom { justify-content: flex-end; }
+  /* 토끼가 편한 점을 말풍선으로 안내(보이면 차례로 올라옴) */
+  .guide { display: flex; align-items: flex-end; gap: 4px; margin-top: 28px; padding: 16px 18px 16px 6px; border-radius: 28px; background: #fff; max-width: 440px; box-shadow: 0 24px 40px -28px rgba(80, 20, 0, .55); }
+  .g-says { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; flex: 1; min-width: 0; }
+  .g-says li { padding: 11px 14px; border-radius: 16px 16px 16px 4px; background: #FFF1E6; color: var(--ink); font-size: 15.5px; font-weight: 700; line-height: 1.4; }
+  .js .guide .g-says li { opacity: 0; transform: translateY(10px) scale(.96); transition: opacity .45s var(--ease), transform .45s cubic-bezier(.3, 1.5, .5, 1); transition-delay: calc(var(--i) * .45s + .2s); }
+  .js .guide.in .g-says li { opacity: 1; transform: none; }
+  /* 5만원 가격 꼬리표: 왼쪽 구멍에 끈을 단 행택이 살짝 흔들림(2026-11-03 사용자: 이 구간만 다듬기) */
+  .hang-wrap { display: flex; justify-content: center; padding: 34px 0 6px 44px; }
+  .hang { position: relative; padding: 26px 28px 26px 68px; border-radius: 30px 40px 40px 30px; background: #E8590C; color: #fff; text-align: left; box-shadow: 0 2px 0 rgba(255, 255, 255, .25) inset, 0 28px 44px -26px rgba(194, 65, 12, .75); transform-origin: 36px 50%; }
+  .js .hang { animation: swing 4.2s ease-in-out 3; }
+  @keyframes swing { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(1.5deg); } }
+  .hang .hole { position: absolute; left: 24px; top: 50%; width: 22px; height: 22px; margin-top: -11px; border-radius: 50%; background: #fff; box-shadow: inset 0 2px 4px rgba(120, 40, 0, .45); }
+  .hang .string { position: absolute; left: -60px; top: 50%; width: 132px; height: 99px; margin-top: -60px; overflow: visible; }
+  .hang p { margin: 0; }
+  .h-top { font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
+  .h-big { margin-top: 2px; font-size: clamp(68px, 20vw, 120px); line-height: 1; font-weight: 900; letter-spacing: -0.04em; white-space: nowrap; }
+  .h-bot { margin-top: 6px; font-size: 19px; font-weight: 700; }
+  .b-price { text-align: center; }
+  .b-price .post { margin: 12px 0 0; font-size: 15px; color: var(--ink2); }
+  .btn-carrot { margin-top: 30px; background: var(--carrot-deep); color: #fff; }
+  .btn-carrot:hover { background: #9A3412; }
+  .b-price .bc { background: #FFF1E6; color: #9A3412; }
+  .b-price .burst { height: 540px; }
+  .b-price .burst-core { top: 57%; }
+  .b-price .hang-wrap { padding-top: 0; }
+
+  /* 맡기는 순서(당근색 번호) + 질문 */
+  .b-more { padding-top: 24px; }
+  .b-steps { display: grid; gap: 10px; margin: 26px 0 8px; padding: 0; list-style: none; counter-reset: s; }
+  .b-steps li { display: grid; grid-template-columns: 40px 1fr; column-gap: 12px; align-items: center; padding: 16px 18px; border-radius: 20px; background: #FFEBD9; counter-increment: s; }
+  .b-steps li::before { content: counter(s); grid-row: span 2; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--carrot-deep); color: #fff; font-weight: 800; }
+  .b-steps b { font-size: 17px; font-weight: 800; }
+  .b-steps span { font-size: 14.5px; color: var(--body); }
+  .b-more .faq { margin-top: 28px; }
+  @media (min-width: 960px) { .b-steps { grid-template-columns: repeat(3, 1fr); } .b-more .h2 { text-align: center; } }
+  /* 계산 결과: 갑자기 검은 카드 대신 연한 당근색 카드(2026-11-03 사용자), 토끼(인형 리그)가 오른쪽 위에서 만세 */
+  .res { background: #FFF6EE; color: var(--ink); box-shadow: inset 0 0 0 1.5px #FFE1CB; }
+  .res .r-plan { padding-right: 90px; color: var(--ink2); }
+  .res .r-plan b { color: var(--carrot-deep); }
+  .res .r-price small { color: var(--muted); }
+  .res .r-incl { color: var(--body); }
+  .res .ladder div { background: #fff; box-shadow: inset 0 0 0 1px #FFE1CB; }
+  .res .ladder span { color: var(--muted); }
+  .res .ladder .on { background: var(--carrot-deep); box-shadow: none; color: #fff; }
+  .res .ladder .on span { color: #fff; }
+  .res .btn-rsv { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px #FFD9BD; }
+  .res .btn-rsv:hover { background: #FFF1E6; }
+  .res .r-tel { color: var(--ink2); }
+  .res details { border-top-color: #FFE1CB; }
+  .res summary { color: var(--ink2); }
+  .res .r-more { color: var(--body); }
+  .res .r-list svg { color: var(--carrot-deep); }
+  .res .r-again { color: var(--muted); }
+  .corp-line { margin: 8px 0 0; font-size: 14.5px; font-weight: 600; color: var(--ink2); }
+
+  /* 마무리(당근색) */
+  .b-close { padding: 80px 0 88px; background: var(--carrot); color: #fff; text-align: center; }
+  .b-close .sticker { width: 156px; margin: 0 auto 22px; padding: 10px; border-radius: 36px; background: #fff; box-shadow: 0 18px 40px -20px rgba(80, 20, 0, .5); transform: rotate(-4deg); transform-origin: 50% 100%; }
+  .b-close .sticker img { width: 100%; height: auto; mix-blend-mode: multiply; }
+  .b-close .h2 { color: #fff; }
+  .b-close .lead { color: var(--ink); margin-left: auto; margin-right: auto; }
+  .b-close .acts { display: grid; gap: 12px; max-width: 420px; margin: 28px auto 0; }
+  .b-close .tel { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .b-close .btn-rsv { background: #fff; color: var(--carrot-deep); box-shadow: none; }
+  .b-close .btn-rsv:hover { background: #FFF1E6; }
+
+  @media (min-width: 960px) {
+    .b-hero { padding: 48px 0 24px; }
+    .b-hero .hero-grid { grid-template-columns: 1.05fr .95fr; gap: 40px; align-items: center; }
+    .b-hero .lead { font-size: 21px; }
+    .stage-b { height: 520px; }
+    .say { left: 0; top: 40px; font-size: 28px; }
+    .tag5 { right: 0; bottom: 60px; }
+    .tag5 b { font-size: 46px; }
+    .b-hero .hero-fine { text-align: left; }
+    .b-band { padding: 112px 0; }
+    .b-band-grid { grid-template-columns: 1fr auto; gap: 80px; align-items: center; justify-items: start; }
+    .b-band .device { height: 620px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .say, .js .hang { animation: none; }
+    .js .guide .g-says li { opacity: 1; transform: none; transition: none; }
+  }
+  /* 전화 상담 예약 창: 스크롤 없이 한 화면에(세로 압축) */
+  #reserve .sheet-hd { padding: 14px 18px 6px; }
+  #reserve .sheet-hd h2 { font-size: 19px; }
+  #reserve .sheet-x { width: 40px; height: 40px; }
+  #reserve .sheet-body { padding: 0 18px calc(14px + env(safe-area-inset-bottom)); }
+  #reserve .rsv { gap: 10px; margin-top: 4px; }
+  #reserve .rsv .two { display: grid; grid-template-columns: 1fr 1.35fr; gap: 8px; }
+  #reserve .rsv label.l, #reserve .rsv span.l { display: block; margin-bottom: 4px; font-size: 13.5px; font-weight: 700; color: var(--ink2); }
+  #reserve .rsv input[type=text], #reserve .rsv input[type=tel], #reserve .rsv textarea { padding: 10px 12px; border-radius: 12px; }
+  #reserve .rsv textarea { min-height: 0; height: 46px; resize: none; }
+  #reserve .rsv .when { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  #reserve .rsv .when span { padding: 8px 2px; border-radius: 11px; font-size: 14px; }
+  #reserve .rsv .agree { font-size: 12.5px; line-height: 1.45; }
+  #reserve .rsv .btn-block { min-height: 50px; padding-top: 12px; padding-bottom: 12px; }
+  #reserve .rsv .msg { min-height: 0; }
+  #reserve .rsv .msg:empty { display: none; }
+  #reserve .or-tel { margin: 2px 0 0; font-size: 13.5px; }
+  #reserve .or-tel a { min-height: 40px; }
+</style>
+<script>document.documentElement.classList.add('js');if(self!==top){var A=location.ancestorOrigins,L=A&&A.length?[].slice.call(A):[document.referrer],R=/^https:\/\/([a-z0-9-]+\.)*(daangn\.com|karrotmarket\.com|karrot\.com)(\/|$)/;if(!L.every(function(o){return R.test(o||'')}))document.documentElement.style.display='none'}</script>
+<script src="js/v2.js?v=15" defer></script>
+<script src="js/bun.js?v=1" defer></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 3.6c-5 0-9 3.1-9 7 0 2.5 1.7 4.7 4.2 5.9l-.9 3.5c-.1.4.4.7.7.4l4.2-2.8h.8c5 0 9-3.1 9-7s-4-7-9-7z" fill="currentColor"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sb" viewBox="0 0 52 12"><rect x="0" y="7" width="3" height="5" rx="1" fill="currentColor"/><rect x="5" y="5" width="3" height="7" rx="1" fill="currentColor"/><rect x="10" y="2.5" width="3" height="9.5" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/><rect x="26" y="1" width="22" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="28" y="3" width="16" height="6" rx="1.5" fill="currentColor"/><rect x="49" y="4" width="2" height="4" rx="1" fill="currentColor"/></symbol>
+</svg>
+
+<header class="hd">
+  <div class="wrap">
+    <a class="brand" href="/"><img src="img/mark.svg" alt="" width="26" height="26">택스민</a>
+    <div>
+      <a class="hd-link" href="#calc" data-hit="hd_calc">기장료 계산</a>
+      <a class="btn btn-kakao hd-kakao" href="https://pf.kakao.com/_Mxojqs/chat" target="_blank" rel="noopener" data-hit="kakao_hd">카톡 상담</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- 첫 화면: 토끼 마스코트 -->
+  <section class="b-hero" data-hero>
+    <div class="wrap hero-grid">
+      <div>
+        <h1 class="b-h1">세무사도<br><span class="carrot">당근</span>하세요!</h1>
+        <p class="lead">채팅 한 번이면<br><b>세무사와 대화를 시작</b>할 수 있어요.</p>
+        <div class="hero-actions">
+          <a class="btn btn-kakao" href="https://pf.kakao.com/_Mxojqs/chat" target="_blank" rel="noopener" data-hit="kakao"><svg class="ico"><use href="#i-chat"/></svg>카톡으로 채팅 시작</a>
+          <a class="btn btn-gray" href="#calc" data-hit="hero_calc">기장료 계산</a>
+        </div>
+      </div>
+      <div>
+        <div class="stage-b">
+          <div class="bun-hero" data-bun="hero" role="img" aria-label="당근을 안고 윙크하는 택스민 토끼"><img src="img/rabbit.webp" alt="" width="820" height="929" style="width:100%;height:auto;mix-blend-mode:multiply"></div>
+          <p class="say" aria-hidden="true">당근이죠!</p>
+          <p class="tag5"><small>직원이 있어도</small><b>한 달 <span>5만원</span><i>부터</i></b></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 물어보면 다 당근이죠 -->
+  <section class="b-band">
+    <div class="wrap b-band-grid">
+      <div>
+        <h2 class="h2">물어보면 다<br>“당근이죠”</h2>
+        <p class="lead">장부 정리, 부가세, 직원 월급 신고까지<br>카톡으로 물어보고 맡기면 끝이에요.</p>
+        <div class="guide" data-guide>
+          <div class="g-bun" data-bun="guide" aria-hidden="true"></div>
+          <ul class="g-says">
+            <li style="--i:0">사무실 안 오셔도 돼요</li>
+            <li style="--i:1">영수증은 사진 한 장이면 돼요</li>
+            <li style="--i:2">신고 날짜는 제가 먼저 알려 드릴게요</li>
+          </ul>
+        </div>
+      </div>
+      <div class="device" data-player>
+        <div class="screen">
+          <div class="sb" aria-hidden="true"><span>9:41</span><svg><use href="#i-sb"/></svg></div>
+          <div class="ch" aria-hidden="true"><svg><use href="#i-back"/></svg><span style="flex:1">택스민</span><svg><use href="#i-menu"/></svg></div>
+          <div class="chat" aria-hidden="true">
+            <div class="row me seq"><div class="stack"><p class="bub">직원이 2명인데 한 달 5만원 맞아요?</p></div></div>
+            <div class="row seq typing-row"><span class="ava"><img src="img/mark-w.svg" alt=""></span><span class="typing"><i></i><i></i><i></i></span></div>
+            <div class="row seq"><span class="ava"><img src="img/mark-w.svg" alt=""></span><div class="stack"><p class="who">택스민</p><p class="bub"><b>당근이죠!</b> 직원 3명까지 월 5만원이에요.</p></div><span class="time">오후 2:10</span></div>
+            <div class="row me seq"><div class="stack"><p class="bub">부가세 신고도 해 주세요?</p></div></div>
+            <div class="row seq"><span class="ava"><img src="img/mark-w.svg" alt=""></span><div class="stack"><p class="bub"><b>당근이죠.</b> 날짜 오기 전에 먼저 연락드릴게요.</p></div><span class="time">오후 2:11</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 뭘 해도 5만원 -->
+  <section class="sec b-price" id="price">
+    <div class="wrap">
+      <div class="burst" aria-label="음식점, 카페, 미용실, 학원, 온라인 판매, 프리랜서 모두 직원이 있어도 한 달 5만원부터">
+        <span class="bc" style="--i:0;--x:16%;--y:5%;--dx:14%;--dy:16%;--r:-4deg">음식점도</span>
+        <span class="bc" style="--i:1;--x:50%;--y:3%;--dx:33%;--dy:6%;--r:3deg">카페도</span>
+        <span class="bc" style="--i:2;--x:84%;--y:6%;--dx:67%;--dy:6%;--r:-3deg">미용실도</span>
+        <span class="bc" style="--i:3;--x:30%;--y:15%;--dx:86%;--dy:16%;--r:4deg">네일숍도</span>
+        <span class="bc" style="--i:4;--x:70%;--y:15%;--dx:8%;--dy:44%;--r:-2deg">학원도</span>
+        <span class="bc" style="--i:5;--x:27%;--y:82%;--dx:92%;--dy:44%;--r:3deg">온라인 판매도</span>
+        <span class="bc" style="--i:6;--x:75%;--y:84%;--dx:11%;--dy:74%;--r:-4deg">프리랜서도</span>
+        <span class="bc" style="--i:7;--x:15%;--y:94%;--dx:89%;--dy:74%;--r:2deg">공방도</span>
+        <span class="bc" style="--i:8;--x:52%;--y:95%;--dx:31%;--dy:94%;--r:-2deg">디자인 사무실도</span>
+        <span class="bc" style="--i:9;--x:86%;--y:93%;--dx:69%;--dy:94%;--r:4deg">도소매도</span>
+        <div class="burst-core">
+        <div class="hang-wrap">
+          <div class="hang" role="img" aria-label="직원이 있어도 한 달 5만원부터, 부가세 별도">
+            <svg class="string" viewBox="0 0 120 90" aria-hidden="true"><path d="M112 52 C 80 46, 40 10, 4 4" fill="none" stroke="#B8875C" stroke-width="3" stroke-linecap="round"/></svg>
+            <span class="hole" aria-hidden="true"></span>
+            <p class="h-top">직원이 있어도 한 달</p>
+            <p class="h-big num">5만원</p>
+            <p class="h-bot">부터 · 부가세 별도</p>
+          </div>
+        </div>
+        </div>
+      </div>
+      <a class="btn btn-carrot" href="#calc" data-hit="price_calc">우리 가게 기장료 계산하기</a>
+      <p class="post">세 가지만 고르면 우리 가게 금액이 바로 나와요</p>
+      <p class="corp-line">법인사업자도 맡기실 수 있어요 · 법인 기장은 월 10만원부터</p>
+    </div>
+  </section>
+
+  <!-- 맡기는 순서 + 질문 -->
+  <section class="sec b-more">
+    <div class="wrap">
+      <h2 class="h2">시작은 이렇게 간단해요</h2>
+      <ol class="b-steps">
+        <li><b>카톡으로 상담</b><span>업종과 지금 상황을 말씀해 주세요</span></li>
+        <li><b>기장료 확인</b><span>세무사가 정확한 금액을 알려 드려요</span></li>
+        <li><b>홈택스 수임 동의</b><span>세금계산서·카드 내역이 자동으로 모여요</span></li>
+      </ol>
+      <div class="faq">
+        <details><summary>정말 사무실에 안 가도 돼요?<svg><use href="#i-down"/></svg></summary><div><p>네. 상담부터 자료 주고받기까지 카카오톡과 전화로 끝나요.</p></div></details>
+        <details><summary>5만원 말고 더 내는 건 없어요?<svg><use href="#i-down"/></svg></summary><div><p>요금은 부가세 별도이고, 5월 종합소득세 신고 비용은 따로예요. 신고 전에 먼저 알려 드려요. 작년 매출이 크거나 직원이 6명 이상이면 등급이 달라져서, 기장료 계산에서 우리 가게 금액을 먼저 확인해 보세요.</p></div></details>
+        <details><summary>법인사업자도 되나요?<svg><use href="#i-down"/></svg></summary><div><p>네, 법인사업자도 맡기실 수 있어요. 법인 기장은 월 10만원부터(부가세 별도)이고, 기장료 계산에서 ‘다른 업종 보기 → 법인사업자예요’를 고르면 바로 확인돼요.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 마무리 -->
+  <section class="b-close" data-nodock>
+    <div class="wrap">
+      <div class="sticker"><img src="img/rabbit.webp" alt="" width="820" height="929" loading="lazy"></div>
+      <h2 class="h2">세무사도 당근.<br>채팅 한 번이면 시작이에요</h2>
+      <p class="lead">상담은 무료예요. 평일 10:00–17:30에 답해 드려요.</p>
+      <div class="acts">
+        <a class="btn btn-kakao btn-block" href="https://pf.kakao.com/_Mxojqs/chat" target="_blank" rel="noopener" data-hit="kakao_close"><svg class="ico"><use href="#i-chat"/></svg>카톡으로 채팅 시작</a>
+        <a class="btn btn-rsv btn-block" href="#reserve" data-hit="close_reserve">전화 상담 예약</a>
+        <a class="tel" href="tel:0507-1445-7729" data-hit="tel">바로 전화 0507-1445-7729</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ft" data-nodock>
+  <div class="wrap">
+    <b>세무회계 민</b> · 대표자 이민기 · 사업자번호 546-54-00533<br>
+    서울특별시 강서구 공항대로 194, 7층 717~718 · 전화 0507-1445-7729<br>
+    상담 시간 평일 10:00–17:30 · <a href="privacy.html">개인정보처리방침</a>
+  </div>
+</footer>
+
+<dialog class="sheet" id="calc" aria-labelledby="calc-t">
+  <div class="sheet-hd"><h2 id="calc-t">기장료 계산</h2><button class="sheet-x" type="button" data-close aria-label="닫기"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+  <div class="sheet-body">
+    <p class="sheet-lead">업종, 작년 매출, 직원 수 세 가지만 골라 주세요.</p>
+    <div class="calc" data-calc></div>
+  </div>
+</dialog>
+
+<dialog class="sheet" id="reserve" aria-labelledby="rsv-t">
+  <div class="sheet-hd"><h2 id="rsv-t">전화 상담 예약</h2><button class="sheet-x" type="button" data-close aria-label="닫기"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+  <div class="sheet-body">
+    <form class="rsv" novalidate>
+      <div class="two"><div class="f"><label class="l" for="r-name">이름</label><input type="text" id="r-name" autocomplete="name" maxlength="30" required></div>
+      <div class="f"><label class="l" for="r-tel">휴대폰 번호</label><input type="tel" id="r-tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" maxlength="13" required></div></div>
+      <div class="f"><span class="l" id="r-when">통화 편한 시간 <small>(평일 10:00–17:30)</small></span><div class="when" role="radiogroup" aria-labelledby="r-when">
+        <label><input type="radio" name="when" value="10:00"><span>10시</span></label>
+        <label><input type="radio" name="when" value="11:00"><span>11시</span></label>
+        <label><input type="radio" name="when" value="12:00"><span>12시</span></label>
+        <label><input type="radio" name="when" value="13:00"><span>13시</span></label>
+        <label><input type="radio" name="when" value="14:00"><span>14시</span></label>
+        <label><input type="radio" name="when" value="15:00"><span>15시</span></label>
+        <label><input type="radio" name="when" value="16:00"><span>16시</span></label>
+        <label><input type="radio" name="when" value="17:00"><span>17시</span></label>
+        <label><input type="radio" name="when" value="언제든" checked><span>언제든</span></label>
+      </div></div>
+      <div class="f"><label class="l" for="r-biz">업종 <small>(선택)</small></label><input type="text" id="r-biz" maxlength="40" placeholder="예) 카페, 네일숍"></div>
+      <div class="f"><label class="l" for="r-msg">궁금한 점 <small>(선택)</small></label><textarea id="r-msg" maxlength="500" rows="1" placeholder="예) 직원 2명인데 부가세도 맡기고 싶어요"></textarea></div>
+      <input class="sr" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="agree"><input type="checkbox" id="r-ok"><span>[필수] 이름·번호·적은 내용을 상담 연락에만 쓰고 마지막 상담일부터 1년 뒤 지워요. <a href="privacy.html" target="_blank" rel="noopener">자세히</a></span></label>
+      <button class="btn btn-blue btn-block" type="submit">전화 상담 예약하기</button>
+      <p class="msg" role="alert"></p>
+    </form>
+    <p class="or-tel">바로 통화하시려면 <a href="tel:0507-1445-7729" data-hit="tel">0507-1445-7729</a></p>
+  </div>
+</dialog>
+
+<div class="dock">
+  <div class="in">
+    <a class="btn btn-gray" href="#calc" data-hit="dock_calc">기장료 계산</a>
+    <a class="btn btn-kakao" href="https://pf.kakao.com/_Mxojqs/chat" target="_blank" rel="noopener" data-hit="kakao_dock"><svg class="ico"><use href="#i-chat"/></svg>카톡 상담</a>
+  </div>
+</div>
+</body>
+</html>
