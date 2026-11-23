@@ -43,7 +43,9 @@
   function gaName(e) {
     if (e === 'calc_start') return 'calc_start';
     if (e === 'calc_done') return 'calc_complete';
-    if (/^kakao/.test(e)) return 'kakao_click';
+    if (/^kakao/.test(e)) return 'kakao_click';   // 실제로 카톡을 연 것만(kakao_go·kakao_again). 안내 창을 연 것은 아래 kakao_guide
+    if (/^kg_/.test(e)) return 'kakao_guide';
+    if (e === 'sent_yes') return 'kakao_sent';
     if (e === 'tel') return 'tel_click';
     if (e === 'reserve_open') return 'form_open';
     if (e === 'reserve_done') return 'form_submit';
@@ -160,7 +162,14 @@
   var sheets = Object.create(null);   // #constructor 같은 주소 해시에 걸려 멈추지 않게
   $$('dialog.sheet').forEach(function (d) {
     sheets[d.id] = d;
-    d.addEventListener('click', function (e) { if (e.target === d || e.target.closest('[data-close]')) d.close(); });
+    d.addEventListener('click', function (e) { if (e.target.closest('[data-close]')) d.close(); });
+    /* 바깥을 누르면 닫기: 지원하는 브라우저는 closedby="any", 그 밖에는 '누른 곳·뗀 곳이 둘 다 창 밖'일 때만
+       (창 안에서 글자를 끌어 고르다 밖에서 떼도 닫히지 않게) */
+    if (window.HTMLDialogElement && 'closedBy' in HTMLDialogElement.prototype) { d.setAttribute('closedby', 'any'); return; }
+    var downOut = false;
+    function outside(e) { var r = d.getBoundingClientRect(); return e.target === d && (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom); }
+    d.addEventListener('pointerdown', function (e) { downOut = outside(e); });
+    d.addEventListener('pointerup', function (e) { if (downOut && outside(e)) d.close(); downOut = false; });
   });
   function openSheet(id) {
     var d = sheets[id]; if (!d) return false;
@@ -218,6 +227,10 @@
      업종군: 가 = 도소매(A) · 나 = 음식·제조·건설·운수·정보통신(B) · 다 = 서비스·임대·교육·전문직·그 밖(C·P·?)
      Lite 월 5~6만원(직원 3명까지 5만 · 4~5명 6만) | Plus 월 7~8만원 | 성실 월 12~15만원
      Lite 상한 가 9억 · 나 5억 · 다 3억 / 성실 가 15억 · 나 7.5억 · 다 5억 이상. 부가세·조정료 별도, 6개월 약정. */
+  /* v3.js(카톡 안내 창)가 쓰는 다리: 집계·복사·창 열기·계산 결과 글 */
+  window.TMX = { hit: hit, copy: copyNow, open: openSheet, toast: toast,
+    result: function () { return R ? resultText() : ''; }, price: function () { return R ? R.price : ''; } };
+
   var box = $('[data-calc]');
   if (!box) return;
   /* 먼저 6개만 보이고 나머지는 '다른 업종'으로 펼침(업종 묶음·규칙은 그대로) */
@@ -294,8 +307,7 @@
   function renderResult() {
     res.classList.remove('ph');
     var h = '<p class="r-price num">' + esc(R.price) + '<small>부가세 별도</small></p><p class="r-incl num">' + inclLine() + '</p>';
-    h += '<a class="btn btn-kakao btn-block" href="' + KAKAO + '" target="_blank" rel="noopener" data-copy data-hit="kakao_copy">' + CHAT + '이 결과로 카톡 상담하기</a>';
-    h += '<p data-copy-hint style="margin:6px 0 4px;font-size:14px;line-height:1.5;color:var(--ink2,#6b7280);text-align:center">누르면 계산 결과가 복사돼요. 카톡 창에 <b>붙여넣기</b>만 하세요.</p>';
+    h += '<a class="btn btn-kakao btn-block" href="' + KAKAO + '" target="_blank" rel="noopener" data-kk-open data-hit="kg_calc">' + CHAT + '이 결과로 카톡 상담하기</a>';
     h += '<a class="btn btn-rsv btn-block" href="#reserve" data-hit="res_reserve">전화 상담 예약</a>';
     h += '<a class="r-tel" href="tel:' + TEL + '" data-hit="tel">바로 전화 ' + TEL + '</a>';
     var list = R.kind === 'corp' ? ['법인 장부 기장', '부가가치세·법인세 신고', '인건비 신고'] :
@@ -324,8 +336,10 @@
     try {
       var t = doc.createElement('textarea'); t.value = text; t.setAttribute('readonly', '');
       t.style.position = 'fixed'; t.style.top = '0'; t.style.opacity = '0';
-      doc.body.appendChild(t); t.select(); t.setSelectionRange(0, text.length);
-      ok = doc.execCommand('copy'); doc.body.removeChild(t);
+      /* 창(dialog)이 떠 있으면 창 밖은 눌리지도 골라지지도 않는다 → 임시 글칸을 열린 창 안에 넣어야 복사가 됨 */
+      var host = doc.querySelector('dialog[open]') || doc.body;
+      host.appendChild(t); t.focus(); t.select(); t.setSelectionRange(0, text.length);
+      ok = doc.execCommand('copy'); host.removeChild(t);
     } catch (e) {}
     try { if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).catch(function () {}); } catch (e) {}
     return ok;
@@ -353,12 +367,6 @@
       return;
     }
     if (e.target.closest('[data-again]')) { reset('ind'); A.ind = null; qs.ind.classList.remove('done'); $$('.chip', qs.ind).forEach(function (x) { x.classList.remove('on'); }); qs.ind.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'center' }); return; }
-    if (e.target.closest('[data-copy]') && R) {
-      copyNow(resultText());
-      toast('계산 결과를 복사했어요. 카톡 창에 붙여넣기만 하세요.');
-      var tip = res.querySelector('[data-copy-hint]');
-      if (tip) tip.innerHTML = '<b>계산 결과를 복사했어요.</b> 카톡 창에 붙여넣고 보내 주세요.';
-    }
   }
   box.addEventListener('click', onClick);
   if (resHost !== box) resHost.addEventListener('click', onClick);
